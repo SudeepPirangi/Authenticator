@@ -14,4 +14,5 @@ app.use(helmet());
 
 app.listen(PORT, () => {
   console.log(`Authenticator app is listening on port ${PORT} in ${ENV} environment`);
+  console.log('xyz');
 });
