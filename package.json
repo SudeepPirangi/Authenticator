@@ -1,0 +1,47 @@
+{
+  "name": "authenticator",
+  "version": "1.0.0",
+  "description": "This is an app used to authenticate SPAs using JWT. This project is built on NodeJS with TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "preserve": "npm run build",
+    "serve": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudeepPirangi/Authenticator.git"
+  },
+  "keywords": [
+    "Authentication",
+    "NodeJS",
+    "TypeScript",
+    "MongoDB",
+    "JWT"
+  ],
+  "author": "Sudeep Pirangi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SudeepPirangi/Authenticator/issues"
+  },
+  "homepage": "https://github.com/SudeepPirangi/Authenticator#readme",
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.15",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
