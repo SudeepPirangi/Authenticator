@@ -8,7 +8,7 @@ authRouter.get("/users", getUsers);
 authRouter.get("/user/:email", getUserByEmail);
 authRouter.post("/register", registerUser);
 authRouter.post("/login", loginUser);
-authRouter.post("/reset-password", resetPassword);
-authRouter.delete("/remove/:id", removeUser);
+authRouter.put("/reset-password", resetPassword);
+authRouter.delete("/remove/:email", removeUser);
 
 export default authRouter;

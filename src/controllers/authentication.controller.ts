@@ -21,12 +21,26 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserByEmail = async (req: Request, res: Response) => {
   const email = req.params.email;
-  const queryResponse = await queryDB(Users.findOne({ email }), `Get User by email ${email}`);
-  const thisUser: User = {
-    _id: queryResponse?._id,
-    email: queryResponse?.email,
-  };
-  return res.json(thisUser);
+  if (email) {
+    const queryResponse = await queryDB(Users.findOne({ email }), `Get User by email ${email}`);
+    if (queryResponse) {
+      const thisUser: User = {
+        _id: queryResponse?._id,
+        email: queryResponse?.email,
+      };
+      return res.json(thisUser);
+    }
+    return res.json({
+      status: 400,
+      message: `Failed to get user. User doesn't exist with email ${email}`,
+      data: { email },
+    });
+  }
+  return res.json({
+    status: 500,
+    message: "Failed to get user, invalid email",
+    data: { email },
+  });
 };
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -119,6 +133,27 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const removeUser = () => {
-  console.log("Remove Users");
+export const removeUser = async (req: Request, res: Response) => {
+  const email = req.params.email;
+  if (email) {
+    const queryResponse = await queryDB(Users.findOne({ email }), `Get User by email ${email}`);
+    if (queryResponse) {
+      const deleteUserResponse = await queryDB(Users.deleteOne({ email }));
+      return res.json({
+        status: 200,
+        message: `Delete user ${email}`,
+        data: deleteUserResponse,
+      });
+    }
+    return res.json({
+      status: 400,
+      message: `Failed to get user. User doesn't exist with email ${email}`,
+      data: { email },
+    });
+  }
+  return res.json({
+    status: 500,
+    message: "Failed to remove user, invalid email",
+    data: { email },
+  });
 };
