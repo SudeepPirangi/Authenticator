@@ -1,13 +1,15 @@
 import mongoose from "mongoose";
 
-let ENV = process.env;
-let mongodb = null;
+import UsersSchema from "../models/Users.schema";
 
-const UsersSchema = new mongoose.Schema({ email: "string", password: "string" });
+let ENV_VAR = process.env;
+
 export const Users = mongoose.model("Users", UsersSchema);
 
 export const connectMongo = () => {
-  return mongoose.connect(`mongodb+srv://${ENV.MONGODB_USERNAME}:${ENV.MONGODB_PASSWORD}@${ENV.MONGODB_HOST}/${ENV.MONGODB_DATABASE}`);
+  return mongoose.connect(
+    `mongodb+srv://${ENV_VAR.MONGODB_USERNAME}:${ENV_VAR.MONGODB_PASSWORD}@${ENV_VAR.MONGODB_HOST}/${ENV_VAR.MONGODB_DATABASE}`
+  );
 };
 
 export const disconnectMongo = () => {
