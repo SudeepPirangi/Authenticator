@@ -90,10 +90,6 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 };
 
-export const loginUser = () => {
-  console.log("Login User");
-};
-
 export const updateUser = async (req: Request, res: Response) => {
   const firstname = req.body?.firstname;
   const lastname = req.body?.lastname;

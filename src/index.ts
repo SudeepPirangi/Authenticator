@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 
-import authRouter from "./routes/authentication.router";
+import userRouter from "./routes/user.router";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const app: Express = express();
 
 app.use(express.json());
 app.use(helmet());
-app.use("/", authRouter);
+app.use("/", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Authenticator app is listening on port ${PORT} in ${ENV} environment`);
