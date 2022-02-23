@@ -56,17 +56,45 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
+export const logout = async (req: Request, res: Response) => {
+  const accessToken = req.header("accessToken");
+  if (accessToken) {
+    let decodedToken: any = await jwt.verify(accessToken, ENV_VAR.TOKEN_SECRET);
+    if (decodedToken["exp"] < Date.now()) {
+      return res.setHeader("Set-Cookie", [cookie.serialize("tkn", "", { httpOnly: true }), cookie.serialize("ref", "", { httpOnly: true })]).json({
+        status: 200,
+        message: "Logout successful",
+        data: {
+          email: decodedToken["email"],
+          accessToken: null,
+          refreshToken: null,
+        },
+      });
+    }
+    return res.json({
+      status: 200,
+      message: "Access token has already expired",
+      data: null,
+    });
+  }
+  return res.json({
+    status: 500,
+    message: "Failed to logout user. Missing access token in header",
+    data: null,
+  });
+};
+
 export const refreshToken = async (req: Request, res: Response) => {
   const refreshToken = req.header("refreshToken");
   if (refreshToken) {
-    let decodedToken: any = jwt.verify(refreshToken, ENV_VAR.REFRESH_SECRET);
+    let decodedToken: any = await jwt.verify(refreshToken, ENV_VAR.REFRESH_SECRET);
     if (decodedToken["exp"] < Date.now()) {
       delete decodedToken["iat"];
       delete decodedToken["exp"];
       const tokenExpiresIn: number = ENV_VAR.TOKEN_EXPIRES_IN ?? parseInt(ENV_VAR.TOKEN_EXPIRES_IN);
       const refreshExpiresIn: number = ENV_VAR.REFRESH_EXPIRES_IN ?? parseInt(ENV_VAR.REFRESH_EXPIRES_IN);
-      const newAccessToken = jwt.sign(decodedToken, ENV_VAR.TOKEN_SECRET, { expiresIn: `${tokenExpiresIn}ms` });
-      const newRefreshToken = jwt.sign(decodedToken, ENV_VAR.REFRESH_SECRET, { expiresIn: `${refreshExpiresIn}ms` });
+      const newAccessToken = await jwt.sign(decodedToken, ENV_VAR.TOKEN_SECRET, { expiresIn: `${tokenExpiresIn}ms` });
+      const newRefreshToken = await jwt.sign(decodedToken, ENV_VAR.REFRESH_SECRET, { expiresIn: `${refreshExpiresIn}ms` });
       return res
         .setHeader("Set-Cookie", [
           cookie.serialize("tkn", newAccessToken, { httpOnly: true, maxAge: tokenExpiresIn / 1000 }),

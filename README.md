@@ -60,7 +60,16 @@ This app is used for authenticating any SPA. This is built on **NodeJS**.
   }
 ```
 
-8. **Refresh Token** - GET `/refreshToken`
+8. **Logout** - GET `/logout`
+
+```
+  <request header>
+  {
+    "accessToken": "eypq......"
+  }
+```
+
+9. **Refresh Token** - GET `/refreshToken`
 
 ```
   <request header>

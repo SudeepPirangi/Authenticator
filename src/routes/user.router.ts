@@ -1,6 +1,6 @@
 import express from "express";
 
-import { login, refreshToken } from "../controllers/auth.controller";
+import { login, logout, refreshToken } from "../controllers/auth.controller";
 import { getUserByEmail, getUsers, registerUser, removeUser, updatePassword, updateUser } from "../controllers/user.controller";
 
 const userRouter = express.Router();
@@ -13,6 +13,7 @@ userRouter.put("/update-password", updatePassword);
 userRouter.delete("/remove/:email", removeUser);
 
 userRouter.post("/login", login);
+userRouter.get("/logout", logout);
 userRouter.get("/refreshToken", refreshToken);
 
 export default userRouter;
