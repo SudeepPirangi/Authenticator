@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
 import UsersSchema from "../models/Users.schema";
+import AppointmentsSchema from "../models/Appointments.schema";
 
 let ENV_VAR = process.env;
 
 export const Users = mongoose.model("Users", UsersSchema);
+export const Appointments = mongoose.model("Appointments", AppointmentsSchema);
 
 export const connectMongo = () => {
   return mongoose.connect(

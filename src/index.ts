@@ -3,6 +3,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 
 import userRouter from "./routes/user.router";
+import appointmentsRouter from "./routes/appointments.router";
 
 dotenv.config();
 
@@ -14,9 +15,10 @@ const app: Express = express();
 app.use(express.json());
 app.use(helmet());
 app.use("/", userRouter);
+app.use("/", appointmentsRouter);
 
 app.listen(PORT, () => {
-  console.log(`Authenticator app is listening on port ${PORT} in ${ENV} environment`);
+  console.log(`App is listening on port ${PORT} in ${ENV} environment`);
   // connectMongo();
   // setTimeout(() => {
   //   disconnectMongo();
